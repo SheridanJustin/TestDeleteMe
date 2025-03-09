@@ -1,4 +1,4 @@
-name: Run Java Tests
+name: Run Java Tests and Main Method
 
 on: [push, pull_request]
 
@@ -12,13 +12,16 @@ jobs:
         uses: actions/checkout@v2
 
       # Set up Java (use the version that suits your project)
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      # Build the project and run tests using Maven (or Gradle if that's what you're using)
+      # Build the project and run tests using Maven
       - name: Run tests with Maven
-        run: |
-          mvn clean test -Dtest=com.example.AppTest
+        run: mvn clean test -Dtest=com.example.AppTest
+
+      # Run the main method after tests
+      - name: Run main method
+        run: java -cp target/classes com.example.App
